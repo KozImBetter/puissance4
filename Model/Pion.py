@@ -46,5 +46,21 @@ def construirePion(color: int) -> dict:
     return pion
 
 
+def getCouleurPion(pion: dict) -> int:
+    """
+    Cette fonction retourne la couleur du pion passé en paramètre
+
+    :param pion: Dictionnaire représentant le pion
+    :return: Couleur du pion
+    :raise TypeError: Si le dictionnaire ne représente pas un pion
+    """
+
+    if not type(pion) is dict or len(pion) != 2:
+        raise TypeError("getCouleurPion : Le paramètre n’est pas un pion")
+    elif const.COULEUR not in pion.keys() or const.ID not in pion.keys():
+        raise TypeError("getCouleurPion : Le paramètre n’est pas un pion")
+    return pion[const.COULEUR]
+
+
 
 

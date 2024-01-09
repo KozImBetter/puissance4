@@ -89,3 +89,18 @@ def setCouleurPion(pion: dict, color: int) -> None:
     return None
 
 
+def getIdPion(pion: dict) -> int:
+    """
+    Cette fonction retourne l’identifiant du pion passé en paramètre
+
+    :param pion: Dictionnaire représentant le pion
+    :return: Identifiant du pion
+    :raise TypeError: Si le dictionnaire ne représente pas un pion
+    """
+    if type(pion) is not dict or len(pion) != 2:
+        raise TypeError("getIdPion : Le paramètre n’est pas un pion")
+    elif const.COULEUR not in pion.keys() or const.ID not in pion.keys():
+        raise TypeError("getIdPion : Le paramètre n’est pas un pion")
+    return pion[const.ID]
+
+

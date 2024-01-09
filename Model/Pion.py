@@ -104,3 +104,24 @@ def getIdPion(pion: dict) -> int:
     return pion[const.ID]
 
 
+def setIdPion(pion: dict, id: int) -> None:
+    """
+    Cette fonction modifie l’identifiant du pion passé en premier paramètre
+    avec la valeur passée en second paramètre
+
+    :param pion: Dictionnaire représentant le pion
+    :param id: Nouvel identifiant du pion
+    :return: Rien
+    :raise TypeError: - Si le dictionnaire ne représente pas un pion
+                      - Si le futur identifiant n'est pas un entier
+    """
+    if type(pion) is not dict or len(pion) != 2:
+        raise TypeError("setIdPion : Le paramètre n’est pas un pion")
+    elif const.COULEUR not in pion.keys() or const.ID not in pion.keys():
+        raise TypeError("setIdPion : Le paramètre n’est pas un pion")
+    if type(id) is not int:
+        raise TypeError("setIdPion : Le second paramètre n’est pas un entier")
+
+    pion[const.ID] = id
+    return None
+

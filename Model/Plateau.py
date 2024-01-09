@@ -35,3 +35,16 @@ def type_plateau(plateau: list) -> bool:
     return True
 
 
+def construirePlateau() -> list:
+    """
+    Construit un tableau 2D correspondant à un plateau
+
+    :return: Renvoie tableau 2D
+    """
+    temp = []
+    plateau = []
+    for i in range(0, const.NB_COLUMNS):
+        temp.append(None)
+    for j in range(0, const.NB_LINES):
+        plateau.append(temp.copy())
+    return plateau

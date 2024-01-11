@@ -58,6 +58,10 @@ def placerPionPlateau(plateau: list, pion: dict, col: int) -> int:
     :param pion: Dictionnaire représentant le pion
     :param col: Colonne où l'on souhaite poser le pion
     :return: Renvoie la ligne du pion après l'avoir posé, renvoie -1 si la colonne est pleine
+    :raise TypeError: - Si le plateau n'est pas valide
+                      - Si le pion n'est pas valide
+                      - Si la colonne n'est pas un entier
+    :raise ValueError: Si la colonne n'existe pas
     """
     if len(plateau) != const.NB_LINES and len(plateau[0]) != const.NB_COLMUNS:
         raise TypeError('placerPionPlateau : Le premier paramètre ne correspond pas à un plateau')
@@ -117,3 +121,39 @@ def toStringPlateau(plateau: list) -> None:
     print("\n")
 
     return None
+
+
+def detecter4horizontalPlateau(plateau: list, couleur: int) -> list:
+    '''
+    Retourne une liste de 4 pions qui s'enchaines sur chaque ligne
+    :param plateau: Tableau 2D correspondant à un plateau
+    :param couleur: Entier réprésentant la couleur rouge (1) ou jaune (2)
+    :return: liste des pions qui s'enchaines à 4 ou plus sur chaque ligne
+    :raise TypeError: - Si le plateau n'est pas valide
+                      - Si la couleur n'est pas un entier
+    :raise ValueError: Si la couleur n'est pas valide
+    '''
+    if len(plateau) != const.NB_LINES and len(plateau[0]) != const.NB_COLMUNS:
+        raise TypeError('detecter4horizontalPlateau : Le premier paramètre ne correspond pas à un plateau')
+    if type(couleur) is not int:
+        raise TypeError('detecter4horizontalPlateau : le second paramètre n’est pas un entier')
+    if couleur != const.ROUGE or couleur != const.JAUNE:
+        raise ValueError(f'détecter4horizontalPlateau : La valeur de la couleur ({couleur}) n’est pas correcte ')
+
+    L_aligne = []
+    for i in range(0, len(plateau)):
+        count = 0
+        L_temp = []
+
+        for j in range(0, len(plateau[i])):
+
+            if type(plateau[i][j]) is dict:
+                if (plateau[i][j]).get(const.COULEUR) == couleur:
+                    count += 1
+                    L_temp.append(plateau[i][j])
+
+            if count >= 4:
+                L_aligne = L_temp[:4].copy()
+
+    return L_aligne
+

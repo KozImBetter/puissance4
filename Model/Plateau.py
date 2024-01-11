@@ -87,3 +87,33 @@ def placerPionPlateau(plateau: list, pion: dict, col: int) -> int:
 
         plateau[ligne][col] = pion
     return ligne
+
+
+def toStringPlateau(plateau: list) -> None:
+    """
+    Fonction permettant d'afficher le plateau
+
+    :param plateau: Tableau 2D correspondant à un plateau
+    :return: Ne renvoie rien
+    """
+    for i in range(0, len(plateau)):
+        for j in range(0, len(plateau[i])):
+
+            print('|', end='')
+            if type(plateau[i][j]) is not dict:
+                print(' ', end='')
+
+            elif (plateau[i][j]).get(const.COULEUR) == const.ROUGE:
+                print("\x1B[41m \x1B[0m", end='')
+
+            else:
+                print("\x1B[43m \x1B[0m", end='')
+
+        print('|')
+    print(('-'*len(plateau[0])*2) + '-')
+
+    for i in range(0,len(plateau[0])):
+        print(f' {i}', end="")
+    print("\n")
+
+    return None

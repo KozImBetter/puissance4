@@ -235,3 +235,31 @@ def detecter4diagonaleDirectePlateau(plateau: list, couleur: int) -> list:
                 L_aligne.append(pions_diagonale)
 
     return L_aligne
+
+
+def detecter4diagonaleIndirectePlateau(plateau: list, couleur: int) -> list:
+    """
+    Retourne une liste de 4 pions qui s'enchainent en diagonale inverses
+    :param plateau: Tableau 2D correspondant à un plateau
+    :param couleur: Entier réprésentant la couleur rouge (1) ou jaune (2)
+    :return: liste des 4 pions qui s'enchainent en diagonale directe ou inverse
+    :raise TypeError: - Si le plateau n'est pas valide
+                      - Si la couleur n'est pas un entier
+    :raise ValueError: Si la couleur n'est pas valide
+    """
+    if len(plateau) != const.NB_LINES or len(plateau[0]) != const.NB_COLUMNS:
+        raise TypeError('detecter4diagonaleIndirectePlateau: Le premier paramètre ne correspond pas à un plateau')
+    if type(couleur) is not int:
+        raise TypeError('detecter4diagonaleIndirectePlateau: Le second paramètre n’est pas un entier')
+    if couleur not in (const.ROUGE, const.JAUNE):
+        raise ValueError(f'detecter4diagonaleIndirectePlateau: La valeur de la couleur ({couleur}) n’est pas correcte')
+
+    L_aligne = []
+    for i in range(len(plateau) - 3):
+        for j in range(3, len(plateau[i])):
+            pions_diagonale = [plateau[i + k][j - k] for k in range(4)]
+
+            if all(isinstance(p, dict) and p.get(const.COULEUR) == couleur for p in pions_diagonale):
+                L_aligne.append(pions_diagonale)
+
+    return L_aligne

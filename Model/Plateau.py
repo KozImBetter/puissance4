@@ -30,7 +30,7 @@ def type_plateau(plateau: list) -> bool:
     wrong = "Erreur !"
     if next((wrong for line in plateau if type(line) != list or len(line) != const.NB_COLUMNS), True) == wrong:
         return False
-    if next((wrong for line in plateau for c in line if not(c is None) and not type_pion(c)), True) == wrong:
+    if next((wrong for line in plateau for c in line if not (c is None) and not type_pion(c)), True) == wrong:
         return False
     return True
 
@@ -114,9 +114,9 @@ def toStringPlateau(plateau: list) -> None:
                 print("\x1B[43m \x1B[0m", end='')
 
         print('|')
-    print(('-'*len(plateau[0])*2) + '-')
+    print(('-' * len(plateau[0]) * 2) + '-')
 
-    for i in range(0,len(plateau[0])):
+    for i in range(0, len(plateau[0])):
         print(f' {i}', end="")
     print("\n")
 
@@ -124,7 +124,7 @@ def toStringPlateau(plateau: list) -> None:
 
 
 def detecter4horizontalPlateau(plateau: list, couleur: int) -> list:
-    '''
+    """
     Retourne une liste de 4 pions qui s'enchaines sur chaque ligne
     :param plateau: Tableau 2D correspondant à un plateau
     :param couleur: Entier réprésentant la couleur rouge (1) ou jaune (2)
@@ -132,28 +132,78 @@ def detecter4horizontalPlateau(plateau: list, couleur: int) -> list:
     :raise TypeError: - Si le plateau n'est pas valide
                       - Si la couleur n'est pas un entier
     :raise ValueError: Si la couleur n'est pas valide
-    '''
+    """
     if len(plateau) != const.NB_LINES and len(plateau[0]) != const.NB_COLMUNS:
         raise TypeError('detecter4horizontalPlateau : Le premier paramètre ne correspond pas à un plateau')
     if type(couleur) is not int:
         raise TypeError('detecter4horizontalPlateau : le second paramètre n’est pas un entier')
-    if couleur != const.ROUGE or couleur != const.JAUNE:
+    if couleur != const.ROUGE and couleur != const.JAUNE:
         raise ValueError(f'détecter4horizontalPlateau : La valeur de la couleur ({couleur}) n’est pas correcte ')
 
     L_aligne = []
     for i in range(0, len(plateau)):
-        count = 0
         L_temp = []
-
+        L_test = []
         for j in range(0, len(plateau[i])):
 
             if type(plateau[i][j]) is dict:
                 if (plateau[i][j]).get(const.COULEUR) == couleur:
-                    count += 1
                     L_temp.append(plateau[i][j])
+                    L_test.append(j)
 
-            if count >= 4:
-                L_aligne = L_temp[:4].copy()
+        suivi = 0
+
+        for test in range(0, len(L_temp) - 1):
+            if L_test[test] + 1 == L_test[test + 1]:
+                suivi += 1
+            else:
+                suivi = 0
+                L_temp[test] = None
+
+            if suivi == 3:
+                L_aligne = L_aligne + L_temp[:4].copy()
 
     return L_aligne
 
+
+def detecter4verticalPlateau(plateau: list, couleur: int) -> list:
+    """
+    Retourne une liste de 4 pions qui s'enchaines sur chaque colonnes
+    :param plateau: Tableau 2D correspondant à un plateau
+    :param couleur: Entier réprésentant la couleur rouge (1) ou jaune (2)
+    :return: liste des pions qui s'enchaines à 4 ou plus sur chaque colonnes
+    :raise TypeError: - Si le plateau n'est pas valide
+                      - Si la couleur n'est pas un entier
+    :raise ValueError: Si la couleur n'est pas valide
+    """
+    if len(plateau) != const.NB_LINES and len(plateau[0]) != const.NB_COLMUNS:
+        raise TypeError('detecter4verticalPlateau : Le premier paramètre ne correspond pas à un plateau')
+    if type(couleur) is not int:
+        raise TypeError('detecter4verticalPlateau : le second paramètre n’est pas un entier')
+    if couleur != const.ROUGE and couleur != const.JAUNE:
+        raise ValueError(f'detecter4verticalPlateau : La valeur de la couleur ({couleur}) n’est pas correcte ')
+
+    L_aligne = []
+    for j in range(len(plateau[0])):
+        L_temp = []
+        L_test = []
+        for i in range(len(plateau)):
+
+            if type(plateau[i][j]) is dict:
+                if (plateau[i][j]).get(const.COULEUR) == couleur:
+                    L_temp.append(plateau[i][j])
+                    L_test.append(i)
+
+        suivi = 0
+
+        for test in range(len(L_temp) - 1):
+            if L_test[test] + 1 == L_test[test + 1]:
+                suivi += 1
+            else:
+                suivi = 0
+                L_temp[test] = None
+
+            if suivi == 3:
+                L_aligne = L_aligne + L_temp[:4].copy()
+
+    return L_aligne

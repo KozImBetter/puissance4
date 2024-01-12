@@ -63,12 +63,10 @@ def placerPionPlateau(plateau: list, pion: dict, col: int) -> int:
                       - Si la colonne n'est pas un entier
     :raise ValueError: Si la colonne n'existe pas
     """
-    if len(plateau) != const.NB_LINES and len(plateau[0]) != const.NB_COLMUNS:
+    if not type_plateau(plateau):
         raise TypeError('placerPionPlateau : Le premier paramètre ne correspond pas à un plateau')
-    if type(pion) is not dict or len(pion) != 2:
-        raise TypeError("setIdPion : Le paramètre n’est pas un pion")
-    elif const.COULEUR not in pion.keys() or const.ID not in pion.keys():
-        raise TypeError("setIdPion : Le paramètre n’est pas un pion")
+    if not type_pion(pion):
+        raise TypeError("getCouleurPion : Le paramètre n’est pas un pion")
     if type(col) is not int:
         raise TypeError("setIdPion : Le second paramètre n’est pas un entier")
     if col < 0 or col > const.NB_COLUMNS - 1:
@@ -133,7 +131,7 @@ def detecter4horizontalPlateau(plateau: list, couleur: int) -> list:
                       - Si la couleur n'est pas un entier
     :raise ValueError: Si la couleur n'est pas valide
     """
-    if len(plateau) != const.NB_LINES and len(plateau[0]) != const.NB_COLMUNS:
+    if not type_plateau(plateau):
         raise TypeError('detecter4horizontalPlateau : Le premier paramètre ne correspond pas à un plateau')
     if type(couleur) is not int:
         raise TypeError('detecter4horizontalPlateau : le second paramètre n’est pas un entier')
@@ -176,7 +174,7 @@ def detecter4verticalPlateau(plateau: list, couleur: int) -> list:
                       - Si la couleur n'est pas un entier
     :raise ValueError: Si la couleur n'est pas valide
     """
-    if len(plateau) != const.NB_LINES and len(plateau[0]) != const.NB_COLMUNS:
+    if not type_plateau(plateau):
         raise TypeError('detecter4verticalPlateau : Le premier paramètre ne correspond pas à un plateau')
     if type(couleur) is not int:
         raise TypeError('detecter4verticalPlateau : le second paramètre n’est pas un entier')
@@ -219,7 +217,7 @@ def detecter4diagonaleDirectePlateau(plateau: list, couleur: int) -> list:
                       - Si la couleur n'est pas un entier
     :raise ValueError: Si la couleur n'est pas valide
     """
-    if len(plateau) != const.NB_LINES and len(plateau[0]) != const.NB_COLMUNS:
+    if not type_plateau(plateau):
         raise TypeError('detecter4diagonaleDirectePlateau : Le premier paramètre ne correspond pas à un plateau')
     if type(couleur) is not int:
         raise TypeError('detecter4diagonaleDirectePlateau : le second paramètre n’est pas un entier')
@@ -247,7 +245,7 @@ def detecter4diagonaleIndirectePlateau(plateau: list, couleur: int) -> list:
                       - Si la couleur n'est pas un entier
     :raise ValueError: Si la couleur n'est pas valide
     """
-    if len(plateau) != const.NB_LINES or len(plateau[0]) != const.NB_COLUMNS:
+    if not type_plateau(plateau):
         raise TypeError('detecter4diagonaleIndirectePlateau: Le premier paramètre ne correspond pas à un plateau')
     if type(couleur) is not int:
         raise TypeError('detecter4diagonaleIndirectePlateau: Le second paramètre n’est pas un entier')
@@ -270,9 +268,9 @@ def isRempliPlateau(plateau: list) -> bool:
     Retourne la complétion du tableau, True s'il  est plein, sinon False
     :param plateau: Tableau 2D correspondant à un plateau
     :return: True si le tableau est plein, sinon False
-    :raise ValueError:
+    :raise ValueError: Si le paramètre n'est pas un plateau
     """
-    if type(plateau) is not list:
+    if not type_plateau(plateau):
         raise TypeError('isRempliPlateau : Le paramètre n’est pas un plateau')
 
     flag = True

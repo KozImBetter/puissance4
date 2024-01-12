@@ -263,3 +263,22 @@ def detecter4diagonaleIndirectePlateau(plateau: list, couleur: int) -> list:
                 L_aligne.append(pions_diagonale)
 
     return L_aligne
+
+
+def isRempliPlateau(plateau: list) -> bool:
+    """
+    Retourne la complétion du tableau, True s'il  est plein, sinon False
+    :param plateau: Tableau 2D correspondant à un plateau
+    :return: True si le tableau est plein, sinon False
+    :raise ValueError:
+    """
+    if type(plateau) is not list:
+        raise TypeError('isRempliPlateau : Le paramètre n’est pas un plateau')
+
+    flag = True
+    for i in range(0, len(plateau)):
+        for j in range(0, len(plateau[i])):
+            flag = flag and (plateau[i][j] is not None)
+
+    return flag
+

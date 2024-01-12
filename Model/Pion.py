@@ -55,9 +55,7 @@ def getCouleurPion(pion: dict) -> int:
     :raise TypeError: Si le dictionnaire ne représente pas un pion
     """
 
-    if not type(pion) is dict or len(pion) != 2:
-        raise TypeError("getCouleurPion : Le paramètre n’est pas un pion")
-    elif const.COULEUR not in pion.keys() or const.ID not in pion.keys():
+    if type_pion(pion):
         raise TypeError("getCouleurPion : Le paramètre n’est pas un pion")
     return pion[const.COULEUR]
 
@@ -74,9 +72,7 @@ def setCouleurPion(pion: dict, color: int) -> None:
                       - Si l'entier ne représente pas une couleur
     :raise ValueError: Si l’entier ne représente pas une couleur
     """
-    if type(pion) is not dict or len(pion) != 2:
-        raise TypeError("setCouleurPion : Le paramètre n’est pas un pion")
-    elif const.COULEUR not in pion.keys() or const.ID not in pion.keys():
+    if type_pion(pion):
         raise TypeError("setCouleurPion : Le paramètre n’est pas un pion")
 
     if type(color) is not int:
@@ -97,9 +93,7 @@ def getIdPion(pion: dict) -> int:
     :return: Identifiant du pion
     :raise TypeError: Si le dictionnaire ne représente pas un pion
     """
-    if type(pion) is not dict or len(pion) != 2:
-        raise TypeError("getIdPion : Le paramètre n’est pas un pion")
-    elif const.COULEUR not in pion.keys() or const.ID not in pion.keys():
+    if type_pion(pion):
         raise TypeError("getIdPion : Le paramètre n’est pas un pion")
     return pion[const.ID]
 
@@ -115,9 +109,7 @@ def setIdPion(pion: dict, id: int) -> None:
     :raise TypeError: - Si le dictionnaire ne représente pas un pion
                       - Si le futur identifiant n'est pas un entier
     """
-    if type(pion) is not dict or len(pion) != 2:
-        raise TypeError("setIdPion : Le paramètre n’est pas un pion")
-    elif const.COULEUR not in pion.keys() or const.ID not in pion.keys():
+    if type_pion(pion):
         raise TypeError("setIdPion : Le paramètre n’est pas un pion")
     if type(id) is not int:
         raise TypeError("setIdPion : Le second paramètre n’est pas un entier")

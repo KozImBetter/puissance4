@@ -263,6 +263,30 @@ def detecter4diagonaleIndirectePlateau(plateau: list, couleur: int) -> list:
     return L_aligne
 
 
+def getPionsGagnantsPlateau(plateau: dict) -> list:
+    """
+    Reçois un plateau et renvois les séries gagnantes
+
+    :param plateau: Tableau 2D correspondant à un plateau
+    :return:
+    :raise TypeError: Si le plateau n'est pas valide
+    """
+    if not type_plateau(plateau):
+        raise TypeError('getPionsGagnantsPlateau : Le paramètre n’est pas un plateau')
+
+    L_pions_gagnants = []
+    for i in range(0, 1):
+        if detecter4horizontalPlateau(plateau, const.COULEURS[i]):
+            L_pions_gagnants += detecter4horizontalPlateau(plateau, const.COULEURS[i])
+        elif detecter4verticalPlateau(plateau, const.COULEURS[i]):
+            L_pions_gagnants += detecter4verticalPlateau(plateau, const.COULEURS[i])
+        elif detecter4diagonaleDirectePlateau(plateau, const.COULEURS[i]):
+            L_pions_gagnants += detecter4diagonaleDirectePlateau(plateau, const.COULEURS[i])
+        elif detecter4diagonaleIndirectePlateau(plateau, const.COULEURS[i]):
+            L_pions_gagnants += detecter4diagonaleIndirectePlateau(plateau, const.COULEURS[i])
+
+    return L_pions_gagnants
+
 def isRempliPlateau(plateau: list) -> bool:
     """
     Retourne la complétion du tableau, True s'il  est plein, sinon False
@@ -279,4 +303,3 @@ def isRempliPlateau(plateau: list) -> bool:
             flag = flag and (plateau[i][j] is not None)
 
     return flag
-

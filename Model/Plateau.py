@@ -227,10 +227,17 @@ def detecter4diagonaleDirectePlateau(plateau: list, couleur: int) -> list:
     L_aligne = []
     for i in range(len(plateau) - 3):
         for j in range(len(plateau[i]) - 3):
-            pions_diagonale = [plateau[i + k][j + k] for k in range(4)]
+            pions_diagonale = []
+            for k in range(0, 4):
+                pions_diagonale.append(plateau[i + k][j + k])
 
-            if all(type(p) is dict and p.get(const.COULEUR) == couleur for p in pions_diagonale):
-                L_aligne.append(pions_diagonale)
+            pions_alignes = []
+            for pion in pions_diagonale:
+                if type(pion) is dict and pion.get(const.COULEUR) == couleur:
+                    pions_alignes.append(pion)
+
+            if len(pions_alignes) == len(pions_diagonale):
+                L_aligne += pions_diagonale
 
     return L_aligne
 
@@ -254,11 +261,18 @@ def detecter4diagonaleIndirectePlateau(plateau: list, couleur: int) -> list:
 
     L_aligne = []
     for i in range(len(plateau) - 3):
+        pions_diagonale = []
         for j in range(3, len(plateau[i])):
-            pions_diagonale = [plateau[i + k][j - k] for k in range(4)]
+            for k in range(0, 4):
+                pions_diagonale.append(plateau[i + k][j - k])
 
-            if all(isinstance(p, dict) and p.get(const.COULEUR) == couleur for p in pions_diagonale):
-                L_aligne.append(pions_diagonale)
+            pions_alignes = []
+            for pion in pions_diagonale:
+                if type(pion) is dict and pion.get(const.COULEUR) == couleur:
+                    pions_alignes.append(pion)
+
+            if len(pions_alignes) == len(pions_diagonale):
+                L_aligne += pions_diagonale
 
     return L_aligne
 
@@ -275,7 +289,7 @@ def getPionsGagnantsPlateau(plateau: dict) -> list:
         raise TypeError('getPionsGagnantsPlateau : Le paramètre n’est pas un plateau')
 
     L_pions_gagnants = []
-    for i in range(0, 1):
+    for i in range(0, len(const.COULEURS)):
         if detecter4horizontalPlateau(plateau, const.COULEURS[i]):
             L_pions_gagnants += detecter4horizontalPlateau(plateau, const.COULEURS[i])
         elif detecter4verticalPlateau(plateau, const.COULEURS[i]):

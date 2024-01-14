@@ -1,3 +1,5 @@
+import random
+
 from Model.Constantes import *
 from Model.Pion import *
 from Model.Plateau import *
@@ -136,3 +138,40 @@ def setPlacerPionJoueur(joueur: dict, fn: callable) -> None:
     joueur[const.PLACER_PION] = fn
     return None
 
+
+def _placerPionJoueur(joueur: dict) -> int:
+    """
+    Choisis aléatoirement où placer un pion un tableau
+
+    :param joueur: Dictionnaire représentant le joueur
+    :return: Indice de la colonne où poser le pion
+    """
+    col = None
+    L = []
+    for i in range(0, const.NB_COLUMNS):
+        L.append(i)
+    while col == None:
+        potentiel = random.randint(0, len(L)-1)
+        if joueur[const.PLATEAU][0][potentiel] is None:
+            col = potentiel
+        else:
+            L.pop(potentiel)
+    return col
+
+
+def initialiserIAJoueur(joueur: dict, ordre: bool) -> None:
+    """
+    Permet le fonctionnemment de l'IA stupide
+
+    :param joueur:
+    :param ordre: Orde de passage, True (1er) ou False(2ème)
+    :return: Rien
+    :raise TypeError: - Si le premier paramètre n'est pas joueur
+                      - Si le deuxième paramètre n'est pas un booléen
+    """
+    if not type_joueur(joueur):
+        raise TypeError("initialiserIAJoueur : Le premier paramètre n’est pas un joueur")
+    if type(ordre) is not bool:
+        raise TypeError("initialiserIAJoueur: Le second paramètre n’est pas un booléen")
+    joueur[const.PLACER_PION] = _placerPionJoueur
+    return None

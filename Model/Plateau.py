@@ -301,6 +301,7 @@ def getPionsGagnantsPlateau(plateau: dict) -> list:
 
     return L_pions_gagnants
 
+
 def isRempliPlateau(plateau: list) -> bool:
     """
     Retourne la complétion du tableau, True s'il  est plein, sinon False
@@ -331,3 +332,60 @@ def construireJoueur(couleur: int) -> dict:
     if couleur not in (const.ROUGE, const.JAUNE):
         raise ValueError(f"construireJoueur : L’entier donné ({couleur}) n’est pas une couleur")
     return {const.COULEUR: couleur, const.PLATEAU: None, const.PLACER_PION: None}
+
+
+def placerPionLignePlateau(plateau: list, pion: dict, num_ligne: int, sens: bool) -> None or int:
+    """
+    Place un pion à droite ou à gauche d'une ligne
+
+    :param plateau: Tableau 2D représentant un plateau
+    :param pion: Dictionnaire représentant un pion
+    :param num_ligne: Ligne où l'on doit placer le pion
+    :param sens: Sens où insérer le pion (gauche si True, droite si False)
+    :return: Liste des pions déplacés et la ligne du dernier pion. S'il ne change pas de position, alors il faut None, si en dehors du plateau, alors il vaut le nombre total de ligne
+    :raise TypeError: - Si le premier paramètre n'est pas un plateau
+                      - Si le deuxième paramètre n'est pas un pion
+                      - Si le troisième paramètre n'est pas un entier
+                      - Si le dernier paramètre n'est pas un booléen
+    :raise ValueError: Si le troisième paramètre ne corresspond pas à une ligne existante
+    """
+    if not type_plateau(plateau):
+        raise TypeError("placerPionLignePlateau : Le premier paramètre n’est pas n plateau ")
+    if not type_pion(pion):
+        raise TypeError("placerPionLignePlateau : Le second paramètre n’est pas un pion")
+    if type(num_ligne) is not int:
+        raise TypeError("placerPionLignePlateau : le troisième paramètre n’est pas un entier")
+    if num_ligne < 0 or num_ligne >= const.NB_LINES:
+        raise ValueError(f"placerPionLignePlateau : Le troisième paramètre ({num_ligne}) ne désigne pas une ligne")
+    if type(sens) is not bool:
+        raise TypeError("placerPionLignePlateau : le quatrième paramètre n’est pas un booléen")
+
+
+    ligne = None
+    L_total = [pion]
+
+    if sens:
+        i = 0
+        while i < const.NB_COLUMNS and plateau[num_ligne][i] is not None:
+            L_total.append(plateau[num_ligne][i])
+            plateau[num_ligne][i] = L_total[i]
+
+            i += 1
+        if i == const.NB_COLUMNS:
+            ligne = const.NB_LINES
+        else:
+            ligne = placerPionPlateau(plateau, L_total[i], i)
+
+    else:
+        i = const.NB_COLUMNS - 1
+        while i > -1 and plateau[num_ligne][i] is not None:
+            L_total.append(plateau[num_ligne][i])
+            plateau[num_ligne][i] = L_total[const.NB_COLUMNS - i - 1]
+            i -= 1
+
+        if i == -1:
+            ligne = const.NB_LINES
+        else:
+            ligne = placerPionPlateau(plateau, L_total[const.NB_COLUMNS - i - 1], i)
+
+    return (L_total, ligne)
